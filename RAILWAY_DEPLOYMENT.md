@@ -46,9 +46,10 @@ The `backend/railway.json` is already configured with:
 ### 2.2 Configure Backend Service
 1. **Select Repository**: Choose your repository
 2. **Select Branch**: Choose `main` or `master`
-3. **Root Directory**: Set to `backend`
+3. **Root Directory**: Set to `backend` (IMPORTANT!)
 4. **Build Command**: Leave as default (npm install)
 5. **Start Command**: `npm start`
+6. **Verify**: Railway should detect the Node.js project from backend/package.json
 
 ### 2.3 Set Environment Variables
 In Railway dashboard, add these environment variables:
@@ -73,9 +74,10 @@ FRONTEND_URL=https://your-frontend-url.railway.app
 ### 3.1 Configure Frontend Service
 1. In Railway, click "New Service" → "Deploy from GitHub repo"
 2. Select the same repository
-3. **Root Directory**: Set to `frontend`
+3. **Root Directory**: Set to `frontend` (IMPORTANT!)
 4. **Build Command**: `npm run build`
 5. **Start Command**: `npm run preview`
+6. **Verify**: Railway should detect the React/Vite project from frontend/package.json
 
 ### 3.2 Set Frontend Environment Variables
 Add these environment variables for the frontend:
@@ -176,7 +178,18 @@ Update `FRONTEND_URL` in backend to use your custom domain.
 
 ### Common Issues
 
-#### 1. CORS Errors
+#### 1. Build Failed - "no builders available" or "Nixpacks was unable to generate a build plan"
+**Cause**: Railway is trying to build from the root directory instead of the specific service directory.
+
+**Solution**:
+1. Delete the current failed deployment
+2. Create a new service
+3. **IMPORTANT**: Set "Root Directory" to either `backend` or `frontend`
+4. For backend: Set to `backend`
+5. For frontend: Set to `frontend`
+6. Railway should now detect the correct project type
+
+#### 2. CORS Errors
 - Make sure `FRONTEND_URL` matches your frontend URL exactly
 - Include `https://` and no trailing slash
 
